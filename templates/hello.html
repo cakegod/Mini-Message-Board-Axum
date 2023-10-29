@@ -2,10 +2,13 @@
 
 
 {% block content %}
+
 {% for message in messages %}
-	{{ message.user }}
-	{{ message.text }}
-	{{ message.added }}
+{{ message.user }}
+{{ message.text }}
+{{ message.added }}
 {% endfor %}
+
+<a rel="stylesheet" href="/new">Add new</a>
 
 {% endblock %}
