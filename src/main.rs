@@ -28,9 +28,9 @@ async fn main() {
     ]);
 
     let app = Router::new()
-        .route("/", get(handlers::index))
-        .route("/new", get(handlers::new))
-        .route("/new", post(handlers::submit_new))
+        .route("/", get(handlers::index::get))
+        .route("/new", get(handlers::new::get))
+        .route("/new", post(handlers::new::post))
         .with_state(app_state);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
