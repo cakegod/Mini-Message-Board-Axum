@@ -1,7 +1,4 @@
-use std::{
-    net::SocketAddr,
-    sync::{Arc, RwLock},
-};
+use std::net::SocketAddr;
 
 use axum::{
     Router,
@@ -17,20 +14,18 @@ mod templates;
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let app_state = structs::AppState {
-        messages: Arc::new(RwLock::new(vec![
-            structs::Message {
-                text: "Hi there!".to_string(),
-                user: "Amando".to_string(),
-                added: Default::default(),
-            },
-            structs::Message {
-                text: "Hello World!".to_string(),
-                user: "Charles".to_string(),
-                added: Default::default(),
-            },
-        ])),
-    };
+    let app_state = structs::AppState::new(vec![
+        structs::Message {
+            text: "Hi there!".to_string(),
+            user: "Amando".to_string(),
+            added: Default::default(),
+        },
+        structs::Message {
+            text: "Hello World!".to_string(),
+            user: "Charles".to_string(),
+            added: Default::default(),
+        },
+    ]);
 
     let app = Router::new()
         .route("/", get(handlers::index))

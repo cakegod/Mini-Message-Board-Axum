@@ -5,10 +5,9 @@ use crate::structs::{AppState, Message, MessageForm};
 use crate::templates;
 
 pub async fn index(State(app_state): State<AppState>) -> templates::Index<'static> {
-    let reader = app_state.messages.read().unwrap();
     templates::Index {
         title: "Mini Message Board",
-        messages: reader.to_vec(),
+        messages: app_state.messages(),
     }
 }
 
@@ -20,8 +19,7 @@ pub async fn submit_new(
     State(app_state): State<AppState>,
     Form(MessageForm { text, user }): Form<MessageForm>,
 ) -> Redirect {
-    let mut writer = app_state.messages.write().unwrap();
-    writer.push(Message {
+    app_state.add_message(Message {
         text,
         user,
         added: Local::now(),
