@@ -1,29 +1,13 @@
-use crate::serialize_date;
-use axum::{extract::State, response::Redirect, Form};
-use chrono::{DateTime, Local};
-use serde::Deserialize;
+use axum::{extract::State, Form, response::Redirect};
+use chrono::Local;
 
-use crate::{templates, AppState};
-use serde::Serialize;
-
-#[derive(Serialize, Debug, Clone)]
-pub struct Message {
-    pub text: String,
-    pub user: String,
-    #[serde(serialize_with = "serialize_date")]
-    pub added: DateTime<Local>,
-}
-
-#[derive(Deserialize)]
-pub struct MessageForm {
-    user: String,
-    text: String,
-}
+use crate::structs::{AppState, Message, MessageForm};
+use crate::templates;
 
 pub async fn index(State(app_state): State<AppState>) -> templates::Index<'static> {
     let reader = app_state.messages.read().unwrap();
     templates::Index {
-        title: "Mini Messageboard",
+        title: "Mini Message Board",
         messages: reader.to_vec(),
     }
 }

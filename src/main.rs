@@ -1,40 +1,30 @@
-mod handlers;
-mod templates;
-
-use axum::{
-    routing::{get, post},
-    Router,
-};
-use chrono::{DateTime, Local};
 use std::{
     net::SocketAddr,
     sync::{Arc, RwLock},
 };
 
-fn serialize_date<S>(date: &DateTime<Local>, serializer: S) -> Result<S::Ok, S::Error>
-where
-    S: serde::Serializer,
-{
-    serializer.serialize_str(&date.to_rfc2822())
-}
+use axum::{
+    Router,
+    routing::{get, post},
+};
 
-#[derive(Clone)]
-pub struct AppState {
-    messages: Arc<RwLock<Vec<handlers::Message>>>,
-}
+mod handlers;
+mod structs;
+mod templates;
+
 
 #[tokio::main]
 async fn main() {
     tracing_subscriber::fmt::init();
 
-    let app_state = AppState {
+    let app_state = structs::AppState {
         messages: Arc::new(RwLock::new(vec![
-            handlers::Message {
+            structs::Message {
                 text: "Hi there!".to_string(),
                 user: "Amando".to_string(),
                 added: Default::default(),
             },
-            handlers::Message {
+            structs::Message {
                 text: "Hello World!".to_string(),
                 user: "Charles".to_string(),
                 added: Default::default(),

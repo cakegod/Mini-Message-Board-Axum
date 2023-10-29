@@ -1,5 +1,6 @@
-use crate::handlers::Message;
 use askama::Template;
+
+use crate::structs::Message;
 
 #[derive(Template)]
 #[template(path = "hello.html")]
