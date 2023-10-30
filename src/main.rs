@@ -2,7 +2,7 @@ use std::net::SocketAddr;
 
 use axum::{
     Router,
-    routing::{get, post},
+    routing::get,
 };
 
 mod handlers;
@@ -29,8 +29,7 @@ async fn main() {
 
     let app = Router::new()
         .route("/", get(handlers::index::get))
-        .route("/new", get(handlers::new::get))
-        .route("/new", post(handlers::new::post))
+        .route("/new", get(handlers::new::get).post(handlers::new::post))
         .with_state(app_state);
 
     let addr = SocketAddr::from(([127, 0, 0, 1], 3000));
