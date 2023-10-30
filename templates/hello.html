@@ -4,11 +4,11 @@
 {% block content %}
 
 {% for message in messages %}
-{{ message.user }}
-{{ message.text }}
-{{ message.added }}
+<p>{{ message.user }}</p>
+<p>{{ message.text }}</p>
+<p>{{ message.added }}</p>
 {% endfor %}
 
-<a rel="stylesheet" href="/new">Add new</a>
+<a href="/new">Add new</a>
 
 {% endblock %}
